@@ -5,6 +5,7 @@ const POST = mongoose.model("POST");
 const USER = mongoose.model("USER");
 const requireLogin = require("../middlewares/requireLogin");
 
+
 // to get user profile
 router.get("/user/:id", (req, res) => {
     USER.findOne({ _id: req.params.id })
@@ -22,6 +23,7 @@ router.get("/user/:id", (req, res) => {
             return res.status(404).json({ error: "User not found" })
         })
 })
+
 
 // to follow user
 router.put("/follow", requireLogin, (req, res) => {
@@ -46,6 +48,7 @@ router.put("/follow", requireLogin, (req, res) => {
     )
 })
 
+
 // to unfollow user
 router.put("/unfollow", requireLogin, (req, res) => {
     USER.findByIdAndUpdate(req.body.followId, {
@@ -65,6 +68,7 @@ router.put("/unfollow", requireLogin, (req, res) => {
     }
     )
 })
+
 
 // to upload profile pic
 router.put("/uploadProfilePic", requireLogin, (req, res) => {
