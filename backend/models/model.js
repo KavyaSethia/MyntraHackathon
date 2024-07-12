@@ -22,7 +22,14 @@ const userSchema = new mongoose.Schema({
         type: String,
     },
     followers: [{ type: ObjectId, ref: "USER" }],
-    following: [{ type: ObjectId, ref: "USER" }]
+    following: [{ type: ObjectId, ref: "USER" }],
+    catches: [{
+        type: ObjectId,
+        ref: "POST"
+    }],
+    badges: [{
+        type: String
+    }]
 })
 
 mongoose.model("USER", userSchema)

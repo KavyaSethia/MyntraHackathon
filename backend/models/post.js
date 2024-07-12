@@ -10,6 +10,17 @@ const postSchema = new mongoose.Schema({
         type: String,
         require: true
     },
+    tags: [{
+        type: String
+    }],
+    catches: {
+        type: Number,
+        default: 0
+    },
+    totalviews: {
+        type: Number,
+        default: 0
+    },
     likes: [{ type: ObjectId, ref: "USER" }],
     comments: [{
         comment: { type: String },
