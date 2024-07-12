@@ -70,6 +70,7 @@ export default function Home() {
         console.log(result);
       });
   };
+  
   const unlikePost = (id) => {
     fetch("http://localhost:5000/unlike", {
       method: "put",

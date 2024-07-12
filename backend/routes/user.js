@@ -70,6 +70,7 @@ router.put("/unfollow", requireLogin, (req, res) => {
 })
 
 
+
 // to upload profile pic
 router.put("/uploadProfilePic", requireLogin, (req, res) => {
     USER.findByIdAndUpdate(req.user._id, {
@@ -84,5 +85,18 @@ router.put("/uploadProfilePic", requireLogin, (req, res) => {
         }
     })
 })
+
+
+// To search users by username or name
+router.get("/search/user", requireLogin, (req, res) => {
+    let userPattern = new RegExp(req.query.query, "i");
+    USER.find({ $or: [{ userName: { $regex: userPattern } }, { name: { $regex: userPattern } }] })
+        .select("_id userName name")
+        .then(users => {
+            res.json({ users });
+        }).catch(err => {
+            console.log(err);
+        });
+});
 
 module.exports = router;

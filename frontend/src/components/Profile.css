@@ -1,4 +1,10 @@
+.profile-page {
+  display: flex;
+}
+
 .profile {
+  flex:1;
+  padding: 20px;
   max-width: 600px;
   margin: 10px auto;
 }
