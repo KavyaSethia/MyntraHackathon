@@ -3,6 +3,7 @@
     margin: 10px auto;
     border: 1px solid rgb(173, 173, 173);
     border-radius: 5px;
+    padding: 10px;
 }
 
 .main-div{
@@ -10,6 +11,8 @@
 }
 .post-header{
     display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 #post-btn{
@@ -22,12 +25,15 @@
 
 .details{
     border-top: 1px solid rgb(173, 173, 173) ;
+    margin-top: 10px;
 }
 
 textarea{
     width: 90%;
     border: none;
     outline: none;
+    resize: vertical;
+    margin-top: 10px;
 }
 
 #output{
@@ -36,3 +42,59 @@ textarea{
     outline: none;
     margin-top: 5px;
 }
+
+.card-pic {
+    width: 50px; 
+    height: 50px; 
+    overflow: hidden;
+    border-radius: 50%; 
+}
+
+.card-pic img {
+    width: 100%;
+    height: 100%; 
+    object-fit: cover; 
+}
+
+
+.tags-input {
+  margin-top: 10px;
+}
+
+.tags-input input {
+  width: calc(100% - 20px);
+  padding: 8px;
+  font-size: 11px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.tags-list {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 5px;
+}
+
+.tag {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  padding: 5px 8px;
+  border-radius: 4px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+}
+
+.remove-tag {
+  margin-left: 5px;
+  background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+}
+
+.tags-list-content{
+    font-size: 11px;
+}
+
