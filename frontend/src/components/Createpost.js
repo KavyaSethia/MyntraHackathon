@@ -6,7 +6,10 @@ import { useNavigate } from "react-router-dom";
 export default function Createpost() {
   const [body, setBody] = useState("");
   const [image, setImage] = useState("")
-  const [url, setUrl] = useState("")
+  const [url, setUrl] = useState("");
+  const [user, setUser] = useState(null);
+  const [tags, setTags] = useState("");
+  const [tagList, setTagList] = useState([]);
   const navigate = useNavigate()
 
   // Toast functions
@@ -15,6 +18,11 @@ export default function Createpost() {
 
 
   useEffect(() => {
+
+    const userInfo = JSON.parse(localStorage.getItem("user"));
+    if (userInfo) {
+      setUser(userInfo);
+    }
 
     // saving post to mongodb
     if (url) {
@@ -27,7 +35,8 @@ export default function Createpost() {
         },
         body: JSON.stringify({
           body,
-          pic: url
+          pic: url,
+          tags: tagList
         })
       }).then(res => res.json())
         .then(data => {
@@ -70,6 +79,24 @@ export default function Createpost() {
       URL.revokeObjectURL(output.src); // free memory
     };
   };
+
+
+   // Function to add tags
+  const handleAddTag = (e) => {
+    e.preventDefault();
+    if (tags.trim() !== "") {
+      setTagList([...tagList, tags.trim()]);
+      setTags(""); 
+    }
+  };
+
+  // Function to remove tags
+  const handleRemoveTag = (tagToRemove) => {
+    const updatedTags = tagList.filter(tag => tag !== tagToRemove);
+    setTagList(updatedTags);
+  };
+
+
   return (
     <div className="createPost">
       {/* //header */}
@@ -97,15 +124,39 @@ export default function Createpost() {
         <div className="card-header">
           <div className="card-pic">
             <img
-              src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cGVyc29ufGVufDB8MnwwfHw%3D&auto=format&fit=crop&w=500&q=60"
+              src={user?.Photo || "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cGVyc29ufGVufDB8MnwwfHw%3D&auto=format&fit=crop&w=500&q=60"}
               alt=""
             />
           </div>
-          <h5>Ramesh</h5>
+          <h5>{user?.name || "User"}</h5>
         </div>
         <textarea value={body} onChange={(e) => {
           setBody(e.target.value)
         }} type="text" placeholder="Write a caption...."></textarea>
+
+        {/* Tags input */}
+        <div className="tags-input">
+          <input
+            type="text"
+            value={tags}
+            onChange={(e) => setTags(e.target.value)}
+            placeholder="Add tags (press Enter to add)"
+            onKeyPress={(e) => {
+              if (e.key === "Enter") {
+                handleAddTag(e);
+              }
+            }}
+          />
+          {/* Display tags */}
+          <div className="tags-list">
+            {tagList.map((tag, index) => (
+              <div key={index} className="tag">
+                <div className="tags-list-content"> {tag} </div>
+                <button className="remove-tag" onClick={() => handleRemoveTag(tag)}>x</button>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
