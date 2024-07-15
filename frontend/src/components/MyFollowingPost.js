@@ -147,30 +147,10 @@ export default function MyFolliwngPost() {
 
             {/* card content */}
             <div className="card-content">
-              {posts.likes.includes(
-                JSON.parse(localStorage.getItem("user"))._id
-              ) ? (
-                <span
-                  className="material-symbols-outlined material-symbols-outlined-red"
-                  onClick={() => {
-                    unlikePost(posts._id);
-                  }}
-                >
-                  favorite
-                </span>
-              ) : (
-                <span
-                  className="material-symbols-outlined"
-                  onClick={() => {
-                    likePost(posts._id);
-                  }}
-                >
-                  favorite
-                </span>
-              )}
+              
 
               <div style={{ display: "flex", gap: "10px" }}>
-                <p style={{ margin: 0 }}>{posts.likes.length} Likes</p>
+                
                 <p style={{ margin: 0 }}>{posts.catches} Catches</p>
                 <p style={{ margin: 0 }}>{posts.totalviews} Views</p>
               </div>
@@ -252,11 +232,7 @@ export default function MyFolliwngPost() {
               </div>
 
               {/* card content */}
-              <div className="card-content">
-                <p>{item.likes.length} Likes</p>
-                <p>{item.body}</p>
-              </div>
-
+              
               {/* add Comment */}
               <div className="add-comment">
                 <span className="material-symbols-outlined">mood</span>
