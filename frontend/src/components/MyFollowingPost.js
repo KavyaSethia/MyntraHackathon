@@ -132,10 +132,7 @@ export default function MyFolliwngPost() {
             {/* card header */}
             <div className="card-header">
               <div className="card-pic">
-                <img
-                  src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cGVyc29ufGVufDB8MnwwfHw%3D&auto=format&fit=crop&w=500&q=60"
-                  alt=""
-                />
+                <img src={posts.postedBy.Photo} alt="" />
               </div>
               <h5>
                 <Link to={`/profile/${posts.postedBy._id}`}>
@@ -172,7 +169,11 @@ export default function MyFolliwngPost() {
                 </span>
               )}
 
-              <p>{posts.likes.length} Likes</p>
+              <div style={{ display: "flex", gap: "10px" }}>
+                <p style={{ margin: 0 }}>{posts.likes.length} Likes</p>
+                <p style={{ margin: 0 }}>{posts.catches} Catches</p>
+                <p style={{ margin: 0 }}>{posts.totalviews} Views</p>
+              </div>
               <p>{posts.body} </p>
               <p
                 style={{ fontWeight: "bold", cursor: "pointer" }}
