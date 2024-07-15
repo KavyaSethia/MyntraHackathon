@@ -3,8 +3,8 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const requireLogin = require("../middlewares/requireLogin");
 const { route } = require("./auth");
-const POST = mongoose.model("POST")
-
+const POST = mongoose.model("POST");
+const USER = mongoose.model("USER");
 
 // Route
 router.get("/allposts", requireLogin, (req, res) => {
@@ -52,36 +52,49 @@ router.get("/myposts", requireLogin, (req, res) => {
 })
 
 router.put("/like", requireLogin, (req, res) => {
-    POST.findByIdAndUpdate(req.body.postId, {
-        $push: { likes: req.user._id }
-    }, {
-        new: true
-    }).populate("postedBy", "_id name Photo")
-        .exec((err, result) => {
-            if (err) {
-                return res.status(422).json({ error: err })
-            } else {
-                res.json(result)
-            }
-        })
-})
+  POST.findByIdAndUpdate(req.body.postId, {
+    $push: { likes: req.user._id }
+  }, { new: true })
+    .populate("postedBy", "_id name Photo")
+    .exec((err, result) => {
+      if (err) {
+        console.log("Error updating post with like:", err);
+        return res.status(422).json({ error: err });
+      }
 
+      USER.findByIdAndUpdate(req.user._id, {
+        $push: { catches: req.body.postId }
+      }, { new: true })
+        .then(userResult => res.json(result))
+        .catch(err => {
+          console.log("Error updating user with like:", err);
+          res.status(422).json({ error: err });
+        });
+    });
+});
+
+// Unlike a post
 router.put("/unlike", requireLogin, (req, res) => {
-    POST.findByIdAndUpdate(req.body.postId, {
-        $pull: { likes: req.user._id }
-    }, {
-        new: true
-    }).populate("postedBy", "_id name Photo")
-        .exec((err, result) => {
-            if (err) {
-                return res.status(422).json({ error: err })
-            } else {
-                res.json(result)
-            }
-        })
-})
+  POST.findByIdAndUpdate(req.body.postId, {
+    $pull: { likes: req.user._id }
+  }, { new: true })
+    .populate("postedBy", "_id name Photo")
+    .exec((err, result) => {
+      if (err) {
+        console.log("Error updating post with unlike:", err);
+        return res.status(422).json({ error: err });
+      }
 
-router.put("/comment", requireLogin, (req, res) => {
+      USER.findByIdAndUpdate(req.user._id, {
+        $pull: { catches: req.body.postId }
+      }, { new: true })
+        .then(userResult => res.json(result))
+        .catch(err => {
+          console.log("Error updating user with unlike:", err);
+          res.status(422).json({ error: err });
+        });
+    });
+});router.put("/comment", requireLogin, (req, res) => {
     const comment = {
         comment: req.body.text,
         postedBy: req.user._id
