@@ -14,14 +14,16 @@
     align-self: flex-start;
     /* margin-bottom: 10px; */
 }
-.Competitions img{
+
+.Competitions img {
     border: 1px solid #ccc;
-    border: solid rgb(173,173,173);
+    border: solid rgb(173, 173, 173);
     margin-left: 10px;
     width: 75px;
-    height:75px;
+    height: 75px;
     border-radius: 50%;
 }
+
 .ProfilePic {
     margin-right: 10px;
     margin-left: 10px;
@@ -36,44 +38,54 @@
     max-width: 30px;
     height: 40px;
     border-radius: 50%;
-    
+
 }
 
 /* Assuming a container with the class 'cardContainer' */
 .cardContainer {
     /* Ensure proper dimensions for the container */
-    width: 400px; /* Adjust as needed */
-    height: 520px; /* Adjust as needed */
-    overflow: hidden; /* Prevent content overflow */
-    border: solid rgb(173,173,173);
-    perspective: 1000px; /* Creates a 3D perspective for the card */
+    width: 400px;
+    /* Adjust as needed */
+    height: 520px;
+    /* Adjust as needed */
+    overflow: hidden;
+    /* Prevent content overflow */
+    border: solid rgb(173, 173, 173);
+    perspective: 1000px;
+    /* Creates a 3D perspective for the card */
     border: 1px solid #ccc;
     /* padding: 20px; */
     border-radius: 10px;
 }
-  
-  /* Assuming a card with the class 'card' */
+
+/* Assuming a card with the class 'card' */
 .card {
+    
     /* Necessary for the swiping animation */
     backface-visibility: hidden;
     transform-style: preserve-3d;
-    transition: transform 0.3s ease-in-out; /* Adjust duration and easing as needed */
+    transition: transform 0.3s ease-in-out;
+    border: solid rgb(173, 173, 173);
+    width:230px;
+    height:400px;
+    /* Creates a 3D perspective for the card */
+    border: 1px solid #ccc;
+    /* padding: 20px; */
+    border-radius: 10px;
+    /* Adjust duration and easing as needed */
 }
-  
-  /* Classes for swiped cards */
 
-.buttonspace{
+/* Classes for swiped cards */
+
+.buttonspace {
     margin-top: 100px;
     display: flex;
     align-self: center;
-}  
-
-.cardImage img {
-    max-width: 350px;
-    height: 430px;
-    margin-left: 30px;
 }
 
+.cardImage  {
+    align-items: center;
+}
 .cardContent {
     display: flex;
     align-items: center;

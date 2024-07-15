@@ -103,16 +103,18 @@ function Home() {
                 onSwipe={(dir) => swiped(dir, posts[currentIndex], currentIndex)}
                 onCardLeftScreen={() => outOfFrame(posts[currentIndex].body, currentIndex)}
               >
-                <div className="card">
+                
                   <div className="ProfilePic">
                     <img src={posts[currentIndex].postedBy.Photo} alt="Profile" />
                     <h3>{posts[currentIndex].postedBy.name}</h3>
                     <button>Follow</button>
                   </div>
-                  <div className="cardImage">
-                    <img src={posts[currentIndex].photo} alt={posts[currentIndex].body} />
+                  <div className="Card">
+                    <div className="cardImage" >
+                      <img style={{width: "auto",maxHeight: "400px",maxWidth:"350px"}} src={posts[currentIndex].photo} alt={posts[currentIndex].body} />
+                    </div>
                   </div>
-                </div>
+                
               </TinderCard>
             ) : (
               <h2>You have reached our last post!</h2>
