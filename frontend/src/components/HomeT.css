@@ -56,14 +56,8 @@
     perspective: 1000px;
     /* Creates a 3D perspective for the card */
     border: 1px solid #ccc;
+    /* padding: 20px; */
     border-radius: 10px;
-
-    display: flex;
-    /* Enable Flexbox */
-    justify-content: center;
-    /* Center horizontally */
-    align-items: center;
-    /* Center vertically */
 }
 
 

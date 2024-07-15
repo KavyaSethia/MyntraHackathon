@@ -48,7 +48,7 @@ function Home() {
 
   const swiped = (direction, post, index) => {
     
-    const action = direction == "right" ? "catch" : "drop";
+    const action = direction === "right" ? "catch" : "drop";
     setLastDirection(action);
     // Send swipe action to the server
     fetch("http://localhost:5000/swipe", {
@@ -135,12 +135,27 @@ function Home() {
   return (
     <div className="Home">
       <div className="Competitions">
-        <img src={icon} alt="Myntra Logo" />
-        <img src={icon} alt="Myntra Logo" />
-        <img src={icon} alt="Myntra Logo" />
-        <img src={icon} alt="Myntra Logo" />
-        <img src={icon} alt="Myntra Logo" />
-        <img src={icon} alt="Myntra Logo" />
+        <div className="competition-item">
+          <img src={icon} alt="Myntra Logo" />
+          <p>OOTD</p>
+        </div>
+        <div className="competition-item">
+          <img src={icon} alt="Myntra Logo" />
+          <p>   Weekly</p>
+        </div>
+        <div className="competition-item">
+          <img src={icon} alt="Myntra Logo" />
+          <p>  Biweekly</p>
+        </div>
+        <div className="competition-item">
+          <img src={icon} alt="Myntra Logo" />
+          <p>   Monthly</p>
+        </div>
+        <div className="competition-item">
+          <img src={icon} alt="Myntra Logo" />
+          <p>   Seasonal</p>
+        </div>
+        
       </div>
       <div className="cardContainer">
         {!showCards ? (
@@ -157,28 +172,26 @@ function Home() {
                 onSwipe={(dir) => swiped(dir, posts[currentIndex], currentIndex)}
                 onCardLeftScreen={() => outOfFrame(posts[currentIndex].body, currentIndex)}
               >
-                
-                  <div className="ProfilePic">
-                    <img src={posts[currentIndex].postedBy.Photo} alt="Profile" />
-                    <h3>{posts[currentIndex].postedBy.name}</h3>
-                    <button
-                      onClick={() => {
-                        if (followStatus[posts[currentIndex].postedBy._id]) {
-                          unfollowUser(posts[currentIndex].postedBy._id);
-                        } else {
-                          followUser(posts[currentIndex].postedBy._id);
-                        }
-                      }}
-                    >
-                      {followStatus[posts[currentIndex].postedBy._id] ? "Unfollow" : "Follow"}
-                    </button>
+                <div className="ProfilePic">
+                  <img src={posts[currentIndex].postedBy.Photo} alt="Profile" />
+                  <h3>{posts[currentIndex].postedBy.name}</h3>
+                  <button
+                    onClick={() => {
+                      if (followStatus[posts[currentIndex].postedBy._id]) {
+                        unfollowUser(posts[currentIndex].postedBy._id);
+                      } else {
+                        followUser(posts[currentIndex].postedBy._id);
+                      }
+                    }}
+                  >
+                    {followStatus[posts[currentIndex].postedBy._id] ? "Unfollow" : "Follow"}
+                  </button>
+                </div>
+                <div className="Card">
+                  <div className="cardImage">
+                    <img style={{ width: "auto", maxHeight: "400px", maxWidth: "350px" }} src={posts[currentIndex].photo} alt={posts[currentIndex].body} />
                   </div>
-                  <div className="Card">
-                    <div className="cardImage" >
-                      <img style={{width: "auto",maxHeight: "400px",maxWidth:"350px"}} src={posts[currentIndex].photo} alt={posts[currentIndex].body} />
-                    </div>
-                  </div>
-                
+                </div>
               </TinderCard>
             ) : (
               <h2>You have reached our last post!</h2>
@@ -198,7 +211,6 @@ function Home() {
         </button>
       </div>
       {lastDirection && (
-        
         <h2 key={lastDirection} className="infoText">
           It's a {lastDirection}
         </h2>
