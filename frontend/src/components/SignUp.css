@@ -12,6 +12,8 @@
     padding: 30px;
     border: 1px solid rgb(129, 121, 121);
     border-radius: 1px;
+    width: 500px;
+    
     
 }
 .signUpLogo{
@@ -60,4 +62,73 @@ input{
     margin-top: 5px;
     border: 1px solid rgb(129, 121, 121);
     border-radius: 1px;
-    }
+}
+.gender-select {
+    display: flex;
+    align-items: center;
+    margin: 20px;
+  }
+  
+  .circular-checkboxes {
+    display: flex;
+    gap: 10px; /* Adjust the gap between options */
+  }
+  
+  .circular-checkbox {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px; /* Adjust the font size */
+  }
+  
+  .circular-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+  
+  .checkmark {
+    height: 10px; /* Adjust the size of the checkbox */
+    width: 10px; /* Adjust the size of the checkbox */
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    margin-right: 5px; /* Adjust spacing between checkbox and label */
+  }
+  
+  .checkmark:after {
+    content: "";
+    display: none;
+  }
+  
+  .circular-checkbox input:checked ~ .checkmark {
+    background-color: #2196F3;
+    height: 9px; /* Adjust the size of the checkbox */
+    width: 9x;
+    border: 2px solid #ccc;
+  }
+  
+  .circular-checkbox input:checked ~ .checkmark:after {
+    display: block;
+  }
+  .style-select {
+    margin-bottom: 20px;
+  }
+  
+  .style-options {
+    display: flex;
+    flex-wrap: wrap; /* Allow options to wrap onto the next line */
+  }
+  
+  .style-options label {
+    display: flex;
+    align-items: center;
+    margin-right: 30px; /* Adjust horizontal spacing between options */
+    margin-bottom: 10px; /* Adjust vertical spacing between options */
+    width: calc(33.33% - 30px); /* Calculate width for three options per line */
+  }
+  
+  .style-options label input {
+    margin-left: 5px; /* Adjust spacing between checkbox and label */
+  }
+  
+  

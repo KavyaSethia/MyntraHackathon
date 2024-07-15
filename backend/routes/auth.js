@@ -12,39 +12,49 @@ router.get("/", (req, res) => {
   res.send("hello");
 });
 
-
 router.post("/signup", (req, res) => {
-  const { name, userName, email, password } = req.body;
-  if (!name || !email || !userName || !password) {
-    return res.status(422).json({ error: "Please add all the fields" });
+  const { name, userName, email, password, gender, styles } = req.body;
+
+  // Check if all required fields are provided
+  if (!name || !email || !userName || !password || !gender || !styles) {
+    return res.status(422).json({ error: "Please fill in all the fields" });
   }
+
+  // Check if user already exists with the same email or username
   USER.findOne({ $or: [{ email: email }, { userName: userName }] }).then(
     (savedUser) => {
       if (savedUser) {
-        return res
-          .status(422)
-          .json({ error: "User already exist with that email or userName" });
+        return res.status(422).json({ error: "User already exists with that email or username" });
       }
+
+      // Hash the password before saving it to the database
       bcrypt.hash(password, 12).then((hashedPassword) => {
         const user = new USER({
           name,
           email,
           userName,
           password: hashedPassword,
+          gender,
+          styles
         });
 
-        user
-          .save()
+        // Save the user to the database
+        user.save()
           .then((user) => {
             res.json({ message: "Registered successfully" });
           })
           .catch((err) => {
             console.log(err);
+            res.status(500).json({ error: "Failed to register user" });
           });
       });
     }
-  );
+  ).catch(err => {
+    console.log(err);
+    res.status(500).json({ error: "Internal server error" });
+  });
 });
+
 
 router.post("/signin", (req, res) => {
   const { email, password } = req.body;
