@@ -17,22 +17,29 @@ router.get("/allposts", requireLogin, (req, res) => {
 })
 
 router.post("/createPost", requireLogin, (req, res) => {
-    const { body, pic, tags } = req.body;
-    console.log(pic)
+    const { body, pic, tags, myntraLinks } = req.body;
+
     if (!body || !pic) {
-        return res.status(422).json({ error: "Please add all the fields" })
+        return res.status(422).json({ error: "Please add all the fields" });
     }
-    //console.log(req.user)
+
     const post = new POST({
         body,
         photo: pic,
         tags,
+        myntraLinks, // Ensure myntraLinks are included in the post creation
         postedBy: req.user
-    })
-    post.save().then((result) => {
-        return res.json({ post: result })
-    }).catch(err => console.log(err))
-})
+    });
+
+    post.save()
+        .then((result) => {
+            res.json({ post: result });
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).json({ error: "Failed to create post" });
+        });
+});
 
 router.get("/myposts", requireLogin, (req, res) => {
     POST.find({ postedBy: req.user._id })

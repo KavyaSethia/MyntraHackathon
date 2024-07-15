@@ -4,12 +4,14 @@
     border: 1px solid rgb(173, 173, 173);
     border-radius: 5px;
     padding: 10px;
+    background-color: rgb(245, 246, 247);
 }
 
 .main-div{
     border-top: 1px solid rgb(173, 173, 173) ;
 }
 .post-header{
+  height: 50px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -94,7 +96,24 @@ textarea{
   cursor: pointer;
 }
 
+
 .tags-list-content{
     font-size: 11px;
 }
+.tags-input button{
+  border: none;
+    color: #212425;
+    background:none;
+    font-weight: bolder;
+    
+    cursor: pointer;
+}
 
+
+.links-input {
+  /* margin-top: 20px; Adjust margin for spacing */
+  text-align: left; /* Align contents to the left */
+}
+.tags-input{
+  text-align: left;
+}
