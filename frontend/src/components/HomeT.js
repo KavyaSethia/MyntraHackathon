@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import TinderCard from "react-tinder-card";
 import './HomeT.css';
+import icon from '../img/icon.png';
 
 function Home() {
   const [posts, setPosts] = useState([]);
@@ -36,9 +37,9 @@ function Home() {
   const canSwipe = currentIndex < posts.length && currentIndex >= 0;
 
   const swiped = (direction, post, index) => {
-    setLastDirection(direction);
-    const action = direction === "right" ? "catch" : "drop";
     
+    const action = direction == "right" ? "catch" : "drop";
+    setLastDirection(action);
     // Send swipe action to the server
     fetch("http://localhost:5000/swipe", {
       method: "PUT",
@@ -82,11 +83,12 @@ function Home() {
   return (
     <div className="Home">
       <div className="Competitions">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/62/Myntra_logo.png" alt="Myntra Logo" />
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/62/Myntra_logo.png" alt="Myntra Logo" />
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/62/Myntra_logo.png" alt="Myntra Logo" />
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/62/Myntra_logo.png" alt="Myntra Logo" />
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/62/Myntra_logo.png" alt="Myntra Logo" />
+        <img src={icon} alt="Myntra Logo" />
+        <img src={icon} alt="Myntra Logo" />
+        <img src={icon} alt="Myntra Logo" />
+        <img src={icon} alt="Myntra Logo" />
+        <img src={icon} alt="Myntra Logo" />
+        <img src={icon} alt="Myntra Logo" />
       </div>
       <div className="cardContainer">
         {!showCards ? (
@@ -134,8 +136,9 @@ function Home() {
         </button>
       </div>
       {lastDirection && (
+        
         <h2 key={lastDirection} className="infoText">
-          You swiped {lastDirection}
+          It's a {lastDirection}
         </h2>
       )}
     </div>

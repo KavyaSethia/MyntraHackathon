@@ -16,11 +16,13 @@
 }
 
 .Competitions img {
-    border: 1px solid #ccc;
-    border: solid rgb(173, 173, 173);
-    margin-left: 10px;
-    width: 75px;
-    height: 75px;
+    border: 3px solid rgb(69, 197, 14);
+    
+    box-shadow: 0 0 1px rgb(69, 197, 14);
+    /* Adds a glow effect */
+    margin-left: 30px;
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
 }
 
@@ -54,9 +56,16 @@
     perspective: 1000px;
     /* Creates a 3D perspective for the card */
     border: 1px solid #ccc;
-    /* padding: 20px; */
     border-radius: 10px;
+
+    display: flex;
+    /* Enable Flexbox */
+    justify-content: center;
+    /* Center horizontally */
+    align-items: center;
+    /* Center vertically */
 }
+
 
 /* Assuming a card with the class 'card' */
 .card {
