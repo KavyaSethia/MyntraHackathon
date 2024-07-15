@@ -1,65 +1,71 @@
-import React, { useState, useMemo, useRef } from 'react';
-import TinderCard from 'react-tinder-card';
+import React, { useState, useEffect, useRef, useMemo } from "react";
+import TinderCard from "react-tinder-card";
 import './HomeT.css';
 
-const initialDb = [
-  {
-    name: 'Smiling woman1',
-    url: 'https://images.unsplash.com/photo-1580489944761-15a19d654956'
-  },
-  {
-    name: 'Smiling woman2',
-    url: 'https://images.unsplash.com/photo-1580489944761-15a19d654956'
-  },
-  {
-    name: 'Smiling woman3',
-    url: 'https://images.unsplash.com/photo-1580489944761-15a19d654956'
-  },
-  {
-    name: 'Smiling woman4',
-    url: 'https://images.unsplash.com/photo-1580489944761-15a19d654956'
-  },
-  {
-    name: 'Smiling woman5',
-    url: 'https://images.unsplash.com/photo-1580489944761-15a19d654956'
-  },
-  {
-    name: 'Smiling woman6',
-    url: 'https://images.unsplash.com/photo-1580489944761-15a19d654956'
-  },
-  {
-    name: 'Smiling woman7',
-    url: 'https://images.unsplash.com/photo-1580489944761-15a19d654956'
-  }
-];
-
 function Home() {
-  const [db, setDb] = useState(initialDb);
+  const [posts, setPosts] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [lastDirection, setLastDirection] = useState(null);
   const [showCards, setShowCards] = useState(false);
   const currentIndexRef = useRef(currentIndex);
 
+  // Fetch posts from the server
+  useEffect(() => {
+    fetch("http://localhost:5000/allposts", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        setPosts(result); // Assuming result is an array of posts
+      })
+      .catch((err) => {
+        console.error("Error fetching posts:", err);
+      });
+  }, []);
+
   const childRefs = useMemo(
     () =>
-      Array(db.length)
+      Array(posts.length)
         .fill(0)
         .map(() => React.createRef()),
-    [db.length]
+    [posts.length]
   );
 
-  const canSwipe = currentIndex < db.length && currentIndex >= 0;
+  const canSwipe = currentIndex < posts.length && currentIndex >= 0;
 
-  const swiped = (direction, nameToDelete, index) => {
+  const swiped = (direction, post, index) => {
     setLastDirection(direction);
+    const action = direction === "right" ? "catch" : "drop";
+    
+    // Send swipe action to the server
+    fetch("http://localhost:5000/swipe", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+      body: JSON.stringify({
+        postId: post._id,
+        action: action,
+      }),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        console.log(`Post ${action}ed:`, result);
+      })
+      .catch((err) => {
+        console.error(`Error ${action}ing post:`, err);
+      });
   };
 
   const outOfFrame = (name, idx) => {
     console.log(`${name} (${idx}) left the screen!`);
     
-    setDb((prevDb) => prevDb.filter((_, i) => i !== idx));
-    if (currentIndex === db.length - 1) {
-        setCurrentIndex(-1) ;// Set index to -1 when all cards are swiped
+    setPosts((prevPosts) => prevPosts.filter((_, i) => i !== idx));
+    if (currentIndex === posts.length - 1) {
+        setCurrentIndex(-1); // Set index to -1 when all cards are swiped
     } 
   };
 
@@ -89,22 +95,22 @@ function Home() {
           </button>
         ) : (
           <>
-            {currentIndex >= 0 && db[currentIndex] ? (
+            {currentIndex >= 0 && posts[currentIndex] ? (
               <TinderCard
                 ref={childRefs[currentIndex]}
                 className="swipe"
-                key={db[currentIndex].name}
-                onSwipe={(dir) => swiped(dir, db[currentIndex].name, currentIndex)}
-                onCardLeftScreen={() => outOfFrame(db[currentIndex].name, currentIndex)}
+                key={posts[currentIndex]._id}
+                onSwipe={(dir) => swiped(dir, posts[currentIndex], currentIndex)}
+                onCardLeftScreen={() => outOfFrame(posts[currentIndex].body, currentIndex)}
               >
                 <div className="card">
                   <div className="ProfilePic">
-                    <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956" alt="Profile" />
-                    <h3>{db[currentIndex].name}</h3>
+                    <img src={posts[currentIndex].postedBy.Photo} alt="Profile" />
+                    <h3>{posts[currentIndex].postedBy.name}</h3>
                     <button>Follow</button>
                   </div>
                   <div className="cardImage">
-                    <img src={db[currentIndex].url} alt={db[currentIndex].name} />
+                    <img src={posts[currentIndex].photo} alt={posts[currentIndex].body} />
                   </div>
                 </div>
               </TinderCard>

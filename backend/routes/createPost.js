@@ -94,7 +94,9 @@ router.put("/unlike", requireLogin, (req, res) => {
           res.status(422).json({ error: err });
         });
     });
-});router.put("/comment", requireLogin, (req, res) => {
+});
+
+router.put("/comment", requireLogin, (req, res) => {
     const comment = {
         comment: req.body.text,
         postedBy: req.user._id
@@ -146,5 +148,40 @@ router.get("/myfollwingpost", requireLogin, (req, res) => {
         })
         .catch(err => { console.log(err) })
 })
+
+
+//swipe
+router.put("/swipe", requireLogin, async (req, res) => {
+  const { postId, action } = req.body;
+  
+  try {
+    const post = await POST.findById(postId);
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    post.totalviews += 1;
+    
+    if (action === "catch") {
+      post.catches += 1;
+      await post.save();
+
+      await USER.findByIdAndUpdate(req.user._id, {
+        $addToSet: { catches: postId }
+      }, { new: true });
+    } else if (action === "drop") {
+      await post.save();
+    } else {
+      return res.status(400).json({ error: "Invalid action" });
+    }
+
+    res.json({ message: "Swipe action recorded successfully", post });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+
 
 module.exports = router
